@@ -20,4 +20,10 @@
 #define dllx extern "C"
 #endif
 
+#include <cstdlib> // malloc and free, because we transfer ownership of our buffers
+#include <cstdint> // I prefer these typedefs over Windows' screamy ones
+#include <cstring> // mostly for memcpy
+
+#include "smafs.h"
+
 #endif //PCH_H
