@@ -38,10 +38,12 @@ extern struct global_state_find_t
 {
 	HANDLE hFindFile;
 	WIN32_FIND_DATAW ffd;
+	uint32_t dwDesiredAttributes;
 
 	void init()
 	{
 		hFindFile = INVALID_HANDLE_VALUE;
 		memset(&ffd, 0, sizeof(ffd));
+		dwDesiredAttributes = FILE_ATTRIBUTE_NORMAL;
 	}
 } gstate_find;
