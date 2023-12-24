@@ -12,7 +12,7 @@
 
 #define dllg /* tag */
 
-#if defined(_WIN32)
+#if defined(_WINDOWS)
 #define dllx extern "C" __declspec(dllexport)
 #elif defined(GNUC)
 #define dllx extern "C" __attribute__ ((visibility("default"))) 
@@ -20,9 +20,11 @@
 #define dllx extern "C"
 #endif
 
-#include <cstdlib> // malloc and free, because we transfer ownership of our buffers
-#include <cstdint> // I prefer these typedefs over Windows' screamy ones
-#include <cstring> // mostly for memcpy
+#include <cstdlib>		// malloc and free, because we transfer ownership of our buffers
+#include <cstdint>		// I prefer these typedefs over Windows' screamy ones
+#include <cstdio>		// stdout
+#include <cstring>		// mostly for memcpy
+#include <cinttypes>	// printf format helpers
 
 #include "smafs.h"
 
