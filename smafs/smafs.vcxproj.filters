@@ -38,5 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Directory.build.targets" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
