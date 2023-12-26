@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="gml_ext.h" />
+    <ClInclude Include="gml_interop.h" />
     <ClInclude Include="smafs.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

@@ -27,6 +27,9 @@
     <ClInclude Include="gml_ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gml_interop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
