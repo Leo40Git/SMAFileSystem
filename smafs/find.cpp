@@ -71,6 +71,12 @@ namespace find
 		if (SUCCEEDED(new_status))
 		{
 			new_status = file_find_next_matching(false);
+
+			if (new_status == HRESULT_FROM_WIN32(ERROR_NO_MORE_FILES))
+			{
+				// return correct error status (FindFirstFileEx returns ERROR_FILE_NOT_FOUND if no files are found)
+				new_status = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
+			}
 		}
 
 		smafs_status = new_status;
