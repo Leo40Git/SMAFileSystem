@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <_GmlCppExtFuncsInputs Include="@(ClCompile)" Exclude="pch.cpp" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <_GmlCppExtFuncsOutputCppPath>$(IntDir)autogen.cpp</_GmlCppExtFuncsOutputCppPath>
+    <_GmlCppExtFuncsOutputGmlPath>$(IntDir)autogen.gml</_GmlCppExtFuncsOutputGmlPath>
+    <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean);$(ProjectDir)$(_GmlCppExtFuncsOutputCppPath);$(ProjectDir)$(_GmlCppExtFuncsOutputGmlPath)</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
+  
+  <Target Name="_RunGmlCppExtFuncs" AfterTargets="BuildGenerateSources"
+          Inputs="@(_GmlCppExtFuncsInputs)" Outputs="$(_GmlCppExtFuncsOutputCppPath);$(_GmlCppExtFuncsOutputGmlPath)">
+    <Exec Command="GmlCppExtFuncs.exe ^
+          --cpp &quot;$(_GmlCppExtFuncsOutputCppPath)&quot; ^
+          --gml &quot;$(_GmlCppExtFuncsOutputGmlPath)&quot; ^
+          --include &quot;pch.h&quot; @(_GmlCppExtFuncsInputs->'&quot;%(Identity)&quot;',' ')" />
+    
+    <ItemGroup>
+      <ClCompile Include="$(_GmlCppExtFuncsOutputCppPath)" />
+    </ItemGroup>
+  </Target>
+    
   <PropertyGroup>
     <ExportDir>$(OutDir)Export\</ExportDir>
   </PropertyGroup>

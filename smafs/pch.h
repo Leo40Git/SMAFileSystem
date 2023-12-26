@@ -9,23 +9,7 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
-
-#define dllg /* tag */
-
-#if defined(_WINDOWS)
-#define dllx extern "C" __declspec(dllexport)
-#elif defined(GNUC)
-#define dllx extern "C" __attribute__ ((visibility("default"))) 
-#else
-#define dllx extern "C"
-#endif
-
-#include <cstdlib>		// malloc and free, because we transfer ownership of our buffers
-#include <cstdint>		// I prefer these typedefs over Windows' screamy ones
-#include <cstdio>		// stdout
-#include <cstring>		// mostly for memcpy
-#include <cinttypes>	// printf format helpers
-
+#include "gml_ext.h"
 #include "smafs.h"
 
 #endif //PCH_H
