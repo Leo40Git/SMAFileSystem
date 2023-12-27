@@ -26,34 +26,7 @@
     <GMStudioProjectDir>$(ProjectName).gmx</GMStudioProjectDir>
   </PropertyGroup>
   
-  <Target Name="_FindGMStudioCLITool">
-    <!-- get path to GMStudio.CLI tool executable (will be built if it hasn't been yet) -->
-    <MSBuild Projects="$(SolutionDir)GMStudio.CLI\GMStudio.CLI.csproj"
-             Properties="Platform=AnyCPU"
-             Targets="Build">
-      <Output TaskParameter="TargetOutputs" PropertyName="_GMStudioCLITool_Path" />
-    </MSBuild>
-
-    <Error Condition="!Exists('$(_GMStudioCLITool_Path)')"
-           Text="GMStudio.CLI failed to build, or is otherwise missing from '$(_GMStudioCLITool_Path)'" />
-
-    <PropertyGroup>
-      <_GMStudioCLITool_WasDLL Condition="$([System.IO.Path]::GetExtension('$(_GMStudioCLITool_Path)')) == '.dll'">true</_GMStudioCLITool_WasDLL>
-      <_GMStudioCLITool_Path Condition="'$(_GMStudioCLITool_WasDLL)' == 'true'">$([System.IO.Path]::ChangeExtension('$(_GMStudioCLITool_Path)', '.exe'))</_GMStudioCLITool_Path>
-    </PropertyGroup>
-
-    <Error Condition="'$(_GMStudioCLITool_WasDLL)' == 'true' And !Exists('$(_GMStudioCLITool_Path)')"
-           Text="GMStudio.CLI was built as a DLL (EXE file '$(_GMStudioCLITool_Path)' does not exist, so it can't be .NET Core/.NET 5+ app host)" />
-  </Target>
-  
-  <Target Name="_InitializeGMProject"
-          DependsOnTargets="_FindGMStudioCLITool"
-          Condition="!Exists('$(GMStudioProjectDir)')">
-    <Exec Command="&quot;$(_GMStudioCLITool_Path)&quot; new &quot;$(GMStudioProjectDir)&quot;" />
-  </Target>
-  
-  <Target Name="_ExportExtension" AfterTargets="AfterBuild"
-          DependsOnTargets="_FindGMStudioCLITool;_InitializeGMProject"
+  <Target Name="_RunGmxGen" AfterTargets="AfterBuild"
           Condition="'$(ConfigurationName)' == 'Release'">
     <!-- TODO -->
   </Target>
