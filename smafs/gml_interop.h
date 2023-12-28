@@ -3,11 +3,11 @@
 #pragma once
 namespace gml
 {
-	typedef int32_t ds_map;
-	typedef void(*event_perform_async_t)(ds_map map, int32_t event_type);
-	typedef ds_map(*ds_map_create_ext_t)(int32_t n, ...);
-	typedef bool(*ds_map_set_real_t)(ds_map map, const char* key, double value);
-	typedef bool(*ds_map_set_string_t)(ds_map map, const char* key, const char* value);
+	typedef int32_t ds_map_handle;
+	typedef void(*event_perform_async_t)(ds_map_handle map, int32_t event_type);
+	typedef ds_map_handle(*ds_map_create_ext_t)(int32_t n, ...);
+	typedef bool(*ds_map_set_real_t)(ds_map_handle map, const char* key, double value);
+	typedef bool(*ds_map_set_string_t)(ds_map_handle map, const char* key, const char* value);
 
 	// see https://web.archive.org/web/20160303070839/https://help.yoyogames.com/hc/en-us/articles/216755258-Returning-Values-From-An-Extension-Asynchronously-GMS-v1-3-
 
@@ -16,7 +16,7 @@ namespace gml
 	extern ds_map_set_real_t ds_map_set_real;
 	extern ds_map_set_string_t ds_map_set_string;
 
-	inline ds_map ds_map_create()
+	inline ds_map_handle ds_map_create()
 	{
 		return ds_map_create_ext(0);
 	}

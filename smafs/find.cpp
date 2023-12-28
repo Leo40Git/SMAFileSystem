@@ -7,6 +7,13 @@ namespace find
 	WIN32_FIND_DATAW ffd;
 	uint32_t dwDesiredAttributes;
 
+	void init()
+	{
+		hFindFile = INVALID_HANDLE_VALUE;
+		memset(&ffd, 0, sizeof(ffd));
+		dwDesiredAttributes = FILE_ATTRIBUTE_NORMAL;
+	}
+
 	HRESULT file_find_next_matching(bool advance = true)
 	{
 		for (;;)
@@ -21,7 +28,7 @@ namespace find
 
 			if ((ffd.dwFileAttributes & dwDesiredAttributes) != 0)
 			{
-				return smafs_ok;
+				return smafs_success;
 			}
 
 			advance = true;
@@ -111,7 +118,7 @@ namespace find
 		if (hFindFile == INVALID_HANDLE_VALUE)
 		{
 			smafs_status = FindClose(hFindFile)
-				? smafs_ok
+				? smafs_success
 				: HRESULT_FROM_WIN32(GetLastError());
 
 			// clear the handle even if we didn't close it correctly

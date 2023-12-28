@@ -1,87 +1,6 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
-HRESULT smafs_status;
-
-dllx double smafs_get_status()
-{
-    return smafs_status;
-}
-
-wchar_t* str2wcs(const char* src, uint32_t codepage)
-{
-	int32_t size = MultiByteToWideChar(codepage, 0, src, -1, nullptr, 0);
-	if (size == 0)
-	{
-		smafs_status = HRESULT_FROM_WIN32(GetLastError());
-		return nullptr;
-	}
-
-	wchar_t* dest = calloc<wchar_t>(size);
-	if (dest != nullptr)
-	{
-		if (MultiByteToWideChar(codepage, 0, src, -1, dest, size) != 0)
-		{
-			smafs_status = 0;
-		}
-		else
-		{
-			smafs_status = HRESULT_FROM_WIN32(GetLastError());
-			free(dest);
-			dest = nullptr;
-		}
-	}
-	else
-	{
-		smafs_status = smafs_out_of_memory;
-	}
-
-	return dest;
-}
-
-char* wcs2str(const wchar_t* src, uint32_t codepage)
-{
-	int32_t size = WideCharToMultiByte(codepage, 0, src, -1, nullptr, 0, nullptr, nullptr);
-	if (size == 0)
-	{
-		smafs_status = HRESULT_FROM_WIN32(GetLastError());
-		return nullptr;
-	}
-
-	char* dest = calloc<char>(size);
-	if (dest != nullptr)
-	{
-		if (WideCharToMultiByte(codepage, 0, src, -1, dest, size, nullptr, nullptr) != 0)
-		{
-			smafs_status = 0;
-		}
-		else
-		{
-			smafs_status = HRESULT_FROM_WIN32(GetLastError());
-			free(dest);
-			dest = nullptr;
-		}
-	}
-	else
-	{
-		smafs_status = smafs_out_of_memory;
-	}
-
-	return dest;
-}
-
-uint32_t dtoui32(double in)
-{
-	if (std::isfinite(in) && in >= 0 && in <= UINT32_MAX)
-	{
-		smafs_status = smafs_ok;
-		return static_cast<uint32_t>(std::trunc(in));
-	}
-
-	smafs_status = smafs_invalid_argument;
-	return 0;
-}
-
 namespace gml
 {
 	event_perform_async_t event_perform_async;
@@ -97,11 +16,12 @@ namespace gml
 		ds_map_set_string = nullptr;
 	}
 
+	// called by GameMaker: Studio (hence why this is here - technically it's an entrypoint)
 	// see https://web.archive.org/web/20160303070839/https://help.yoyogames.com/hc/en-us/articles/216755258-Returning-Values-From-An-Extension-Asynchronously-GMS-v1-3-
 	// note that this is determined by the function name in GameMaker: Studio, not its actual name (as used by GetProcAddress)
 	// ...that took me 2 hours to figure out.
 
-	dllx double RegisterCallbacks(void* arg1, void* arg2, void* arg3, void* arg4)
+	dllx double RegisterCallbacks(char* arg1, char* arg2, char* arg3, char* arg4)
 	{
 		trace("SMAFileSystem: RegisterCallbacks invoked");
 
@@ -116,16 +36,6 @@ namespace gml
 		trace("ds_map_set_string = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_string));
 
 		return 0;
-	}
-}
-
-namespace find
-{
-	void init()
-	{
-		hFindFile = INVALID_HANDLE_VALUE;
-		memset(&ffd, 0, sizeof(ffd));
-		dwDesiredAttributes = FILE_ATTRIBUTE_NORMAL;
 	}
 }
 

@@ -28,7 +28,7 @@ extern HRESULT smafs_status;
 /// common status codes
 /// keep these in sync with the extension macros
 
-#define smafs_ok					S_OK
+#define smafs_success				S_OK
 #define smafs_noop					S_FALSE
 #define smafs_file_not_found		HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)
 #define smafs_path_not_found		HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND)
@@ -54,7 +54,5 @@ uint32_t dtoui32(double in);
 /// Global state for functions in "find.cpp".
 namespace find
 {
-	extern HANDLE hFindFile;
-	extern WIN32_FIND_DATAW ffd;
-	extern uint32_t dwDesiredAttributes;
+	void init();
 }
