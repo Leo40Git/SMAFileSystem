@@ -103,7 +103,7 @@ dllx const char* smafs_get_current_directory()
 	}
 }
 
-dllx double smafs_set_current_directory(char* cwd)
+dllx double smafs_set_current_directory(const char* cwd)
 {
 	wchar_t* wcwd = str2wcs(cwd);
 	if (wcwd == nullptr)
