@@ -40,6 +40,7 @@ namespace find
 		| 8 // FAT_DIRENT_ATTR_VOLUME_ID, AKA fa_volumeid. not a valid attribute in NTFS, though
 		| FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_ARCHIVE;
 
+	///
 	dllx const char* file_find_first_sma(const char* mask, double attr)
 	{
 		wchar_t* wmask = str2wcs(mask);
@@ -99,6 +100,7 @@ namespace find
 			: "";
 	}
 
+	///
 	dllx const char* file_find_next_sma()
 	{
 		if (hFindFile == INVALID_HANDLE_VALUE)
@@ -113,6 +115,7 @@ namespace find
 			: "";
 	}
 
+	///
 	dllx double file_find_close_sma()
 	{
 		if (hFindFile == INVALID_HANDLE_VALUE)

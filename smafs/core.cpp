@@ -77,17 +77,22 @@ uint32_t dtoui32(double in)
 	return 0;
 }
 
+/// ~
 dllx double smafs_init_raw()
 {
 	smafs_status = smafs_success;
 	return true;
 }
 
+/// ~
 dllx double smafs_get_status()
 {
 	return smafs_status;
 }
 
+//#macro smafs_status smafs_get_status()
+
+///
 dllx const char* smafs_get_current_directory()
 {
 	static wchar_t cwd[4096];
@@ -103,6 +108,7 @@ dllx const char* smafs_get_current_directory()
 	}
 }
 
+///
 dllx double smafs_set_current_directory(const char* cwd)
 {
 	wchar_t* wcwd = str2wcs(cwd);

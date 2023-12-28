@@ -1,4 +1,5 @@
 help.rtf
 Configs/*/*
 extensions/*/*.dll
+extensions/*/*.c
 extensions/*/autogen.gml

@@ -8,25 +8,27 @@
 template<typename T>
 inline T* malloc()
 {
-	return static_cast<T*>(std::malloc(sizeof(T)));
+	return reinterpret_cast<T*>(std::malloc(sizeof(T)));
 }
 
 template<typename T>
 inline T* calloc(size_t count)
 {
-	return static_cast<T*>(std::calloc(sizeof(T), count));
+	return reinterpret_cast<T*>(std::calloc(sizeof(T), count));
 }
 
 template<typename T>
 inline T* realloc(T* block, size_t new_size)
 {
-	return static_cast<T*>(std::realloc(block, new_size));
+	return reinterpret_cast<T*>(std::realloc(block, new_size));
 }
 
 extern HRESULT smafs_status;
 
 /// common status codes
-/// keep these in sync with the extension macros
+/// keep these in sync with the #macros in smafs.gml
+/// (manually, because GmxGen can't expand defines and doesn't see these header files anyway)
+/// TODO: automate this?
 
 #define smafs_success				S_OK
 #define smafs_noop					S_FALSE
