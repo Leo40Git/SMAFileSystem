@@ -21,7 +21,7 @@ namespace find
 
 			if ((ffd.dwFileAttributes & dwDesiredAttributes) != 0)
 			{
-				return S_OK;
+				return smafs_ok;
 			}
 
 			advance = true;
@@ -41,6 +41,12 @@ namespace find
 			return "";
 		}
 
+		DWORD dwAttr = dtoui32(attr);
+		if (!SUCCEEDED(smafs_status))
+		{
+			return "";
+		}
+
 		if (hFindFile != INVALID_HANDLE_VALUE)
 		{
 			if (!FindClose(hFindFile))
@@ -52,7 +58,7 @@ namespace find
 			hFindFile = INVALID_HANDLE_VALUE;
 		}
 
-		dwDesiredAttributes = (static_cast<uint32_t>(attr) & allowed_filter_attributes)
+		dwDesiredAttributes = (dwAttr & allowed_filter_attributes)
 			| FILE_ATTRIBUTE_NORMAL;
 
 		// FindExInfoBasic doesn't populate ffd.cAlternateFileName
@@ -72,10 +78,10 @@ namespace find
 		{
 			new_status = file_find_next_matching(false);
 
-			if (new_status == HRESULT_FROM_WIN32(ERROR_NO_MORE_FILES))
+			if (new_status == smafs_no_more_files)
 			{
 				// return correct error status (FindFirstFileEx returns ERROR_FILE_NOT_FOUND if no files are found)
-				new_status = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
+				new_status = smafs_file_not_found;
 			}
 		}
 
@@ -90,7 +96,7 @@ namespace find
 	{
 		if (hFindFile == INVALID_HANDLE_VALUE)
 		{
-			smafs_status = HRESULT_FROM_WIN32(ERROR_INVALID_OPERATION);
+			smafs_status = smafs_invalid_operation;
 			return "";
 		}
 
@@ -105,7 +111,7 @@ namespace find
 		if (hFindFile == INVALID_HANDLE_VALUE)
 		{
 			smafs_status = FindClose(hFindFile)
-				? S_OK
+				? smafs_ok
 				: HRESULT_FROM_WIN32(GetLastError());
 
 			// clear the handle even if we didn't close it correctly
@@ -115,7 +121,7 @@ namespace find
 		else
 		{
 			// doing nothing is a success in my books
-			smafs_status = S_FALSE;
+			smafs_status = smafs_noop;
 		}
 
 		return SUCCEEDED(smafs_status);

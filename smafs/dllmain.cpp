@@ -33,7 +33,7 @@ wchar_t* str2wcs(const char* src, uint32_t codepage)
 	}
 	else
 	{
-		smafs_status = HRESULT_FROM_WIN32(ERROR_NOT_ENOUGH_MEMORY);
+		smafs_status = smafs_out_of_memory;
 	}
 
 	return dest;
@@ -64,24 +64,36 @@ char* wcs2str(const wchar_t* src, uint32_t codepage)
 	}
 	else
 	{
-		smafs_status = HRESULT_FROM_WIN32(ERROR_NOT_ENOUGH_MEMORY);
+		smafs_status = smafs_out_of_memory;
 	}
 
 	return dest;
+}
+
+uint32_t dtoui32(double in)
+{
+	if (std::isfinite(in) && in >= 0 && in <= UINT32_MAX)
+	{
+		smafs_status = smafs_ok;
+		return static_cast<uint32_t>(std::trunc(in));
+	}
+
+	smafs_status = smafs_invalid_argument;
+	return 0;
 }
 
 namespace gml
 {
 	event_perform_async_t event_perform_async;
 	ds_map_create_ext_t ds_map_create_ext;
-	ds_map_set_double_t ds_map_set_double;
+	ds_map_set_real_t ds_map_set_real;
 	ds_map_set_string_t ds_map_set_string;
 
 	void init()
 	{
 		event_perform_async = nullptr;
 		ds_map_create_ext = nullptr;
-		ds_map_set_double = nullptr;
+		ds_map_set_real = nullptr;
 		ds_map_set_string = nullptr;
 	}
 
@@ -95,12 +107,12 @@ namespace gml
 
 		event_perform_async = reinterpret_cast<event_perform_async_t>(arg1);
 		ds_map_create_ext = reinterpret_cast<ds_map_create_ext_t>(arg2);
-		ds_map_set_double = reinterpret_cast<ds_map_set_double_t>(arg3);
+		ds_map_set_real = reinterpret_cast<ds_map_set_real_t>(arg3);
 		ds_map_set_string = reinterpret_cast<ds_map_set_string_t>(arg4);
 
 		trace("event_perform_async = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(event_perform_async));
 		trace("ds_map_create_ext = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_create_ext));
-		trace("ds_map_set_double = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_double));
+		trace("ds_map_set_real = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_real));
 		trace("ds_map_set_string = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_string));
 
 		return 0;
