@@ -55,6 +55,17 @@
           <args/>
         </function>
         <function>
+          <name>smafs_prepare_buffer</name>
+          <externalName>smafs_prepare_buffer</externalName>
+          <kind>11</kind>
+          <help></help>
+          <returnType>2</returnType>
+          <argCount>1</argCount>
+          <args>
+            <arg>2</arg>
+          </args>
+        </function>
+        <function>
           <name>smafs_status_succeeded</name>
           <externalName>smafs_status_succeeded</externalName>
           <kind>2</kind>
