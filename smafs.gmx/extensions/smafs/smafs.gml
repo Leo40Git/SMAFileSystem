@@ -17,3 +17,11 @@
 #define smafs_init
 /// ()~
 smafs_is_available = smafs_init_raw();
+
+#define smafs_status_succeeded
+/// (status)
+return argument0 >= 0;
+
+#define smafs_status_failed
+/// (status)
+return argument0 < 0;

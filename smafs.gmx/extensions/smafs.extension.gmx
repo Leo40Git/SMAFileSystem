@@ -54,6 +54,28 @@
           <argCount>0</argCount>
           <args/>
         </function>
+        <function>
+          <name>smafs_status_succeeded</name>
+          <externalName>smafs_status_succeeded</externalName>
+          <kind>2</kind>
+          <help>smafs_status_succeeded(status)</help>
+          <returnType>2</returnType>
+          <argCount>1</argCount>
+          <args>
+            <arg>2</arg>
+          </args>
+        </function>
+        <function>
+          <name>smafs_status_failed</name>
+          <externalName>smafs_status_failed</externalName>
+          <kind>2</kind>
+          <help>smafs_status_failed(status)</help>
+          <returnType>2</returnType>
+          <argCount>1</argCount>
+          <args>
+            <arg>2</arg>
+          </args>
+        </function>
       </functions>
       <constants>
         <constant>
@@ -126,7 +148,17 @@
         </Config>
       </ConfigOptions>
       <ProxyFiles/>
-      <functions/>
+      <functions>
+        <function>
+          <name>file_find_current_size_sma</name>
+          <externalName>file_find_current_size_sma</externalName>
+          <kind>2</kind>
+          <help>file_find_current_size_sma()-&gt;int </help>
+          <returnType>2</returnType>
+          <argCount>0</argCount>
+          <args/>
+        </function>
+      </functions>
       <constants/>
     </file>
     <file>
@@ -147,7 +179,7 @@
           <name>smafs_init_raw</name>
           <externalName>smafs_init_raw</externalName>
           <kind>1</kind>
-          <help>smafs_init_raw() : ~</help>
+          <help>smafs_init_raw()</help>
           <returnType>2</returnType>
           <argCount>0</argCount>
           <args/>
@@ -156,7 +188,7 @@
           <name>smafs_get_status</name>
           <externalName>smafs_get_status</externalName>
           <kind>1</kind>
-          <help>smafs_get_status() : ~</help>
+          <help>smafs_get_status()</help>
           <returnType>2</returnType>
           <argCount>0</argCount>
           <args/>
@@ -184,8 +216,8 @@
         <function>
           <name>RegisterCallbacks</name>
           <externalName>RegisterCallbacks</externalName>
-          <kind>1</kind>
-          <help>RegisterCallbacks(arg1, arg2, arg3, arg4) : ~</help>
+          <kind>11</kind>
+          <help></help>
           <returnType>2</returnType>
           <argCount>4</argCount>
           <args>
@@ -199,13 +231,30 @@
           <name>file_find_first_sma</name>
           <externalName>file_find_first_sma</externalName>
           <kind>1</kind>
-          <help>file_find_first_sma(mask, attr)</help>
+          <help>file_find_first_sma(mask)</help>
           <returnType>1</returnType>
-          <argCount>2</argCount>
+          <argCount>1</argCount>
           <args>
             <arg>1</arg>
-            <arg>2</arg>
           </args>
+        </function>
+        <function>
+          <name>file_find_current_sma</name>
+          <externalName>file_find_current_sma</externalName>
+          <kind>1</kind>
+          <help>file_find_current_sma()</help>
+          <returnType>1</returnType>
+          <argCount>0</argCount>
+          <args/>
+        </function>
+        <function>
+          <name>file_find_current_attributes_sma</name>
+          <externalName>file_find_current_attributes_sma</externalName>
+          <kind>1</kind>
+          <help>file_find_current_attributes_sma()</help>
+          <returnType>2</returnType>
+          <argCount>0</argCount>
+          <args/>
         </function>
         <function>
           <name>file_find_next_sma</name>
@@ -224,6 +273,18 @@
           <returnType>2</returnType>
           <argCount>0</argCount>
           <args/>
+        </function>
+        <function>
+          <name>file_find_current_size_sma_raw</name>
+          <externalName>file_find_current_size_sma_raw</externalName>
+          <kind>11</kind>
+          <help></help>
+          <returnType>2</returnType>
+          <argCount>2</argCount>
+          <args>
+            <arg>1</arg>
+            <arg>2</arg>
+          </args>
         </function>
       </functions>
       <constants>

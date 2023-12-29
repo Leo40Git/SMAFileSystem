@@ -21,7 +21,6 @@ namespace gml
 	// note that this is determined by the function name in GameMaker: Studio, not its actual name (as used by GetProcAddress)
 	// ...that took me 2 hours to figure out.
 
-	/// ~
 	dllx double RegisterCallbacks(const char* arg1, const char* arg2, const char* arg3, const char* arg4)
 	{
 		trace("SMAFileSystem: RegisterCallbacks invoked");
