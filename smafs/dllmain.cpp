@@ -3,10 +3,10 @@
 
 namespace gml
 {
-	event_perform_async_t event_perform_async;
-	ds_map_create_ext_t ds_map_create_ext;
-	ds_map_set_real_t ds_map_set_real;
-	ds_map_set_string_t ds_map_set_string;
+	fp_event_perform_async event_perform_async;
+	fp_ds_map_create_ext ds_map_create_ext;
+	fp_ds_map_set_real ds_map_set_real;
+	fp_ds_map_set_string ds_map_set_string;
 
 	void init()
 	{
@@ -25,15 +25,15 @@ namespace gml
 	{
 		trace("SMAFileSystem: RegisterCallbacks invoked");
 
-		event_perform_async = reinterpret_cast<event_perform_async_t>(arg1);
-		ds_map_create_ext = reinterpret_cast<ds_map_create_ext_t>(arg2);
-		ds_map_set_real = reinterpret_cast<ds_map_set_real_t>(arg3);
-		ds_map_set_string = reinterpret_cast<ds_map_set_string_t>(arg4);
+		event_perform_async = reinterpret_cast<fp_event_perform_async>(arg1);
+		ds_map_create_ext = reinterpret_cast<fp_ds_map_create_ext>(arg2);
+		ds_map_set_real = reinterpret_cast<fp_ds_map_set_real>(arg3);
+		ds_map_set_string = reinterpret_cast<fp_ds_map_set_string>(arg4);
 
-		trace("event_perform_async = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(event_perform_async));
-		trace("ds_map_create_ext = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_create_ext));
-		trace("ds_map_set_real = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_real));
-		trace("ds_map_set_string = 0x%08" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_string));
+		trace("event_perform_async = 0x%" PRIXPTR, reinterpret_cast<uintptr_t>(event_perform_async));
+		trace("ds_map_create_ext = 0x%" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_create_ext));
+		trace("ds_map_set_real = 0x%" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_real));
+		trace("ds_map_set_string = 0x%" PRIXPTR, reinterpret_cast<uintptr_t>(ds_map_set_string));
 
 		return 0;
 	}

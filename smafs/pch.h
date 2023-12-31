@@ -10,7 +10,6 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 #include "gml_ext.h"
-#include "gml_interop.h"
 #include "smafs.h"
 
 #endif //PCH_H
