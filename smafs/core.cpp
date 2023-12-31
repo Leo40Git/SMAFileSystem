@@ -122,7 +122,7 @@ dllx double smafs_set_current_directory(const char* cwd)
 	}
 	else
 	{
-		smafs_status = smafs_noop;
+		smafs_status = HRESULT_FROM_WIN32(GetLastError());
 	}
 
 	free(wcwd);
