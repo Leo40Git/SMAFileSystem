@@ -17,7 +17,7 @@ wchar_t* str2wcs(const char* src, uint32_t codepage)
 	{
 		if (MultiByteToWideChar(codepage, 0, src, -1, dest, size) != 0)
 		{
-			smafs_status = 0;
+			smafs_status = smafs_success;
 		}
 		else
 		{
@@ -48,7 +48,7 @@ char* wcs2str(const wchar_t* src, uint32_t codepage)
 	{
 		if (WideCharToMultiByte(codepage, 0, src, -1, dest, size, nullptr, nullptr) != 0)
 		{
-			smafs_status = 0;
+			smafs_status = smafs_success;
 		}
 		else
 		{
