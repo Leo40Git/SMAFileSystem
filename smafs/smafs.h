@@ -53,33 +53,4 @@ inline const char* wcs2str_or_empty(wchar_t* src, uint32_t codepage = CP_UTF8)
 
 uint32_t dtoui32(double in);
 
-/// Special functions for interoperation with GameMaker Language.
-namespace gml
-{
-	// see https://web.archive.org/web/20160303070839/https://help.yoyogames.com/hc/en-us/articles/216755258-Returning-Values-From-An-Extension-Asynchronously-GMS-v1-3-
-
-	typedef int32_t ds_map_id;
-	typedef void(*fp_event_perform_async)(ds_map_id map, int32_t event_type);
-	typedef ds_map_id(*fp_ds_map_create_ext)(int32_t n, ...);
-	typedef bool(*fp_ds_map_set_real)(ds_map_id map, const char* key, double value);
-	typedef bool(*fp_ds_map_set_string)(ds_map_id map, const char* key, const char* value);
-
-	extern fp_event_perform_async event_perform_async;
-	extern fp_ds_map_create_ext ds_map_create_ext;
-	extern fp_ds_map_set_real ds_map_set_real;
-	extern fp_ds_map_set_string ds_map_set_string;
-
-	inline ds_map_id ds_map_create()
-	{
-		return ds_map_create_ext(0);
-	}
-
-	const int32_t EVENT_OTHER_SOCIAL = 70;
-	const int32_t EVENT_OTHER_ASYNC_SAVE_LOAD = 72;
-}
-
-/// Global state for functions in "find.cpp".
-namespace find
-{
-	void init();
-}
+void smafs_find_init();
