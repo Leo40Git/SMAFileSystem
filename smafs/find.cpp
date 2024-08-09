@@ -46,7 +46,7 @@ dllx const char* file_find_first_sma(const char* mask)
 	smafs_status = new_status;
 
 	return SUCCEEDED(new_status)
-		? wcs2str_or_empty(smafs_find_data.cFileName)
+		? wcs2str_nonnull(smafs_find_data.cFileName)
 		: "";
 }
 
@@ -60,7 +60,7 @@ dllx const char* file_find_current_sma()
 	}
 
 	smafs_status = smafs_success;
-	return wcs2str_or_empty(smafs_find_data.cFileName);
+	return wcs2str_nonnull(smafs_find_data.cFileName);
 }
 
 ///
@@ -101,7 +101,7 @@ dllx const char* file_find_next_sma()
 	if (FindNextFileW(smafs_find_handle, &smafs_find_data))
 	{
 		smafs_status = smafs_success;
-		return wcs2str_or_empty(smafs_find_data.cFileName);
+		return wcs2str_nonnull(smafs_find_data.cFileName);
 	}
 	else
 	{

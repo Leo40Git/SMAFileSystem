@@ -98,7 +98,7 @@ dllx const char* smafs_get_current_directory()
 	if (GetCurrentDirectoryW(4096, cwd))
 	{
 		smafs_status = smafs_success;
-		return wcs2str_or_empty(cwd);
+		return wcs2str_nonnull(cwd);
 	}
 	else
 	{
