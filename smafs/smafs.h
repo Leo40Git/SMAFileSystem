@@ -43,21 +43,21 @@ extern HRESULT smafs_status;
 #define smafs_invalid_argument		__HRESULT_FROM_WIN32(ERROR_INVALID_PARAMETER)
 #define smafs_invalid_operation		__HRESULT_FROM_WIN32(ERROR_INVALID_OPERATION)
 
-namespace Utils
+namespace smafs
 {
-	LPTSTR MultiByteToTChar(LPCSTR src);
+	LPTSTR A2T(LPCSTR src);
 
-	LPSTR TCharToMultiByte(LPCTSTR src);
+	LPSTR T2A(LPCTSTR src);
 
-	inline LPCSTR TCharToMultiByteOrEmpty(LPCTSTR src)
+	inline LPCSTR T2A_NONNULL(LPCTSTR src)
 	{
-		LPSTR dest = TCharToMultiByte(src);
+		LPSTR dest = T2A(src);
 		return dest != nullptr ? dest : "";
 	}
 
-	int32_t DoubleToInt32(double in);
+	int32_t dtoi32(double in);
 
-	uint32_t DoubleToUInt32(double in);
+	uint32_t dtoui32(double in);
 }
 
 /// Initializes state local to find.cpp

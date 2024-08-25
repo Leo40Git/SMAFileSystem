@@ -24,7 +24,7 @@ dllx const char* file_find_first_sma(const char* mask)
 		hFind = INVALID_HANDLE_VALUE;
 	}
 
-	LPTSTR lmask = Utils::MultiByteToTChar(mask);
+	LPTSTR lmask = smafs::A2T(mask);
 	if (lmask == nullptr)
 	{
 		return "";
@@ -46,7 +46,7 @@ dllx const char* file_find_first_sma(const char* mask)
 	free(lmask);
 
 	if (SUCCEEDED(smafs_status))
-		return Utils::TCharToMultiByteOrEmpty(findData.cFileName);
+		return smafs::T2A_NONNULL(findData.cFileName);
 	else
 		return "";
 }
@@ -61,7 +61,7 @@ dllx const char* file_find_current_sma()
 	}
 
 	smafs_status = smafs_success;
-	return Utils::TCharToMultiByteOrEmpty(findData.cFileName);
+	return smafs::T2A_NONNULL(findData.cFileName);
 }
 
 ///
@@ -102,7 +102,7 @@ dllx const char* file_find_next_sma()
 	if (FindNextFile(hFind, &findData))
 	{
 		smafs_status = smafs_success;
-		return Utils::TCharToMultiByteOrEmpty(findData.cFileName);
+		return smafs::T2A_NONNULL(findData.cFileName);
 	}
 	else
 	{

@@ -3,9 +3,9 @@
 
 HRESULT smafs_status;
 
-namespace Utils
+namespace smafs
 {
-	LPTSTR MultiByteToTChar(LPCSTR src)
+	LPTSTR A2T(LPCSTR src)
 	{
 #ifdef UNICODE
 		int32_t size = MultiByteToWideChar(CP_UTF8, 0, src, -1, nullptr, 0);
@@ -40,7 +40,7 @@ namespace Utils
 #endif
 	}
 
-	LPSTR TCharToMultiByte(LPCTSTR src)
+	LPSTR T2A(LPCTSTR src)
 	{
 #ifdef UNICODE
 		int32_t size = WideCharToMultiByte(CP_UTF8, 0, src, -1, nullptr, 0, nullptr, nullptr);
@@ -75,7 +75,7 @@ namespace Utils
 #endif
 	}
 
-	int32_t DoubleToInt32(double in)
+	int32_t dtoi32(double in)
 	{
 		if (std::isfinite(in) && in >= INT32_MIN && in <= INT32_MAX)
 		{
@@ -87,7 +87,7 @@ namespace Utils
 		return 0;
 	}
 
-	uint32_t DoubleToUInt32(double in)
+	uint32_t dtoui32(double in)
 	{
 		if (std::isfinite(in) && in >= 0 && in <= UINT32_MAX)
 		{
@@ -117,11 +117,11 @@ dllx double smafs_get_status()
 ///
 dllx const char* smafs_get_current_directory()
 {
-	static TCHAR cwd[4096];
-	if (GetCurrentDirectory(4096, cwd))
+	static TCHAR buffer[4096];
+	if (GetCurrentDirectory(4096, buffer))
 	{
 		smafs_status = smafs_success;
-		return Utils::TCharToMultiByteOrEmpty(cwd);
+		return smafs::T2A_NONNULL(buffer);
 	}
 	else
 	{
@@ -133,7 +133,7 @@ dllx const char* smafs_get_current_directory()
 ///
 dllx double smafs_set_current_directory(const char* cwd)
 {
-	LPTSTR lcwd = Utils::MultiByteToTChar(cwd);
+	LPTSTR lcwd = smafs::A2T(cwd);
 	if (lcwd == nullptr)
 	{
 		return false;
