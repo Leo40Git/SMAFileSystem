@@ -5,6 +5,7 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files
+#include <tchar.h>
 #include <Windows.h>
 
 #include <cstdlib>				// malloc and free, because we transfer ownership of our buffers

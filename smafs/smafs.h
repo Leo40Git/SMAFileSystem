@@ -5,6 +5,7 @@
 // Debug output macro
 #define trace(format, ...) { printf(format "\n", __VA_ARGS__); fflush(stdout); }
 
+/*
 template<typename T>
 inline T* malloc()
 {
@@ -22,6 +23,7 @@ inline T* realloc(T* block, size_t new_size)
 {
 	return reinterpret_cast<T*>(realloc(reinterpret_cast<void*>(block), new_size));
 }
+*/
 
 extern HRESULT smafs_status;
 
@@ -41,17 +43,22 @@ extern HRESULT smafs_status;
 #define smafs_invalid_argument		__HRESULT_FROM_WIN32(ERROR_INVALID_PARAMETER)
 #define smafs_invalid_operation		__HRESULT_FROM_WIN32(ERROR_INVALID_OPERATION)
 
-wchar_t* str2wcs(const char* src, uint32_t codepage = CP_UTF8);
-
-char* wcs2str(const wchar_t* src, uint32_t codepage = CP_UTF8);
-
-inline const char* wcs2str_nonnull(wchar_t* src, uint32_t codepage = CP_UTF8)
+namespace Utils
 {
-	const char* dest = wcs2str(src, codepage);
-	return dest != nullptr ? dest : "";
-}
+	LPTSTR MultiByteToTChar(LPCSTR src);
 
-uint32_t dtoui32(double in);
+	LPSTR TCharToMultiByte(LPCTSTR src);
+
+	inline LPCSTR TCharToMultiByteOrEmpty(LPCTSTR src)
+	{
+		LPSTR dest = TCharToMultiByte(src);
+		return dest != nullptr ? dest : "";
+	}
+
+	int32_t DoubleToInt32(double in);
+
+	uint32_t DoubleToUInt32(double in);
+}
 
 /// Initializes state local to find.cpp
 void smafs_find_init();
