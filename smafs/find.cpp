@@ -1,27 +1,27 @@
 // find.cpp : Defines the file_find_*_sma functions.
 #include "pch.h"
 
-HANDLE hFind;
-WIN32_FIND_DATA findData;
+HANDLE hFindFile;
+WIN32_FIND_DATA w32FindData;
 
 void smafs_find_init()
 {
-	hFind = INVALID_HANDLE_VALUE;
-	memset(&findData, 0, sizeof(findData));
+	hFindFile = INVALID_HANDLE_VALUE;
+	memset(&w32FindData, 0, sizeof(w32FindData));
 }
 
 ///
 dllx const char* file_find_first_sma(const char* mask)
 {
-	if (hFind != INVALID_HANDLE_VALUE)
+	if (hFindFile != INVALID_HANDLE_VALUE)
 	{
-		if (!FindClose(hFind))
+		if (!FindClose(hFindFile))
 		{
 			// can be safely ignored
 			GetLastError(); // to clear it
 		}
 
-		hFind = INVALID_HANDLE_VALUE;
+		hFindFile = INVALID_HANDLE_VALUE;
 	}
 
 	LPTSTR lmask = smafs::A2T(mask);
@@ -30,11 +30,11 @@ dllx const char* file_find_first_sma(const char* mask)
 		return "";
 	}
 
-	// FindExInfoBasic doesn't populate smafs_find_data.cAlternateFileName
+	// FindExInfoBasic doesn't populate w32FindData.cAlternateFileName
 	// ...who's still using short 8.3 filenames?
-	hFind = FindFirstFileEx(lmask, FindExInfoBasic, &findData,
+	hFindFile = FindFirstFileEx(lmask, FindExInfoBasic, &w32FindData,
 		FindExSearchNameMatch, nullptr, 0);
-	if (hFind == INVALID_HANDLE_VALUE)
+	if (hFindFile == INVALID_HANDLE_VALUE)
 	{
 		smafs_status = HRESULT_FROM_WIN32(GetLastError());
 	}
@@ -46,7 +46,7 @@ dllx const char* file_find_first_sma(const char* mask)
 	free(lmask);
 
 	if (SUCCEEDED(smafs_status))
-		return smafs::T2A_NONNULL(findData.cFileName);
+		return smafs::T2A_NONNULL(w32FindData.cFileName);
 	else
 		return "";
 }
@@ -54,55 +54,55 @@ dllx const char* file_find_first_sma(const char* mask)
 ///
 dllx const char* file_find_current_sma()
 {
-	if (hFind == INVALID_HANDLE_VALUE)
+	if (hFindFile == INVALID_HANDLE_VALUE)
 	{
 		smafs_status = smafs_invalid_operation;
 		return "";
 	}
 
 	smafs_status = smafs_success;
-	return smafs::T2A_NONNULL(findData.cFileName);
+	return smafs::T2A_NONNULL(w32FindData.cFileName);
 }
 
 ///
 dllx double file_find_current_attributes_sma()
 {
-	if (hFind == INVALID_HANDLE_VALUE)
+	if (hFindFile == INVALID_HANDLE_VALUE)
 	{
 		smafs_status = smafs_invalid_operation;
 		return INVALID_FILE_ATTRIBUTES;
 	}
 
 	smafs_status = smafs_success;
-	return findData.dwFileAttributes;
+	return w32FindData.dwFileAttributes;
 }
 
 ///
 dllg int64_t file_find_current_size_sma()
 {
-	if (hFind == INVALID_HANDLE_VALUE)
+	if (hFindFile == INVALID_HANDLE_VALUE)
 	{
 		smafs_status = smafs_invalid_operation;
 		return INVALID_FILE_SIZE;
 	}
 
 	return (int64_t)
-		((uint64_t)findData.nFileSizeLow | ((uint64_t)findData.nFileSizeHigh << 32));
+		((uint64_t)w32FindData.nFileSizeLow | ((uint64_t)w32FindData.nFileSizeHigh << 32));
 }
 
 ///
 dllx const char* file_find_next_sma()
 {
-	if (hFind == INVALID_HANDLE_VALUE)
+	if (hFindFile == INVALID_HANDLE_VALUE)
 	{
 		smafs_status = smafs_invalid_operation;
 		return "";
 	}
 
-	if (FindNextFile(hFind, &findData))
+	if (FindNextFile(hFindFile, &w32FindData))
 	{
 		smafs_status = smafs_success;
-		return smafs::T2A_NONNULL(findData.cFileName);
+		return smafs::T2A_NONNULL(w32FindData.cFileName);
 	}
 	else
 	{
@@ -114,15 +114,15 @@ dllx const char* file_find_next_sma()
 ///
 dllx double file_find_close_sma()
 {
-	if (hFind == INVALID_HANDLE_VALUE)
+	if (hFindFile == INVALID_HANDLE_VALUE)
 	{
-		smafs_status = FindClose(hFind)
+		smafs_status = FindClose(hFindFile)
 			? smafs_success
 			: HRESULT_FROM_WIN32(GetLastError());
 
 		// clear the handle even if we didn't close it correctly
 		//  (since failed closes can be ignored safely)
-		hFind = INVALID_HANDLE_VALUE;
+		hFindFile = INVALID_HANDLE_VALUE;
 	}
 	else
 	{
